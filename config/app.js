@@ -1,9 +1,12 @@
 import dotenv from 'dotenv';
 import express  from 'express';
+import http  from 'http';
 //import {Routes} from "../routes/routes.js";
 import {Database} from './database.js';
 import {Routes} from "../routes/routes.js";
 import cors from 'cors';
+import { SocketIo} from "../socket/socket.js";
+import { Server } from 'socket.io';
 
 // inicio config
 
@@ -14,6 +17,8 @@ class App{
 app = express.application;
 //routes= new Routes();
 db = new Database();
+socket = new SocketIo();
+http = null;
 
 
   constructor() {
@@ -23,8 +28,10 @@ db = new Database();
 async initializeApp(){
       this.app = express();
       this.config();
+      this.Http = http.createServer(this.app)
       await this.database();
       Routes.routes(this.app);
+      this.socket.startSocket(this.Http)
   }
 
   config(){

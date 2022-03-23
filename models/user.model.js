@@ -5,8 +5,10 @@ export class UserModel extends Model{}
 
 UserModel.init({
     id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
+        allowNull: false,
         primaryKey: true,
+        comment: "null",
         autoIncrement: true
 
     },
